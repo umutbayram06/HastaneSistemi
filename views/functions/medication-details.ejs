@@ -4,7 +4,8 @@
   <body>
     <h2>Medication Details</h2>
     <%- include('../error', {errorMessage}) %>
-
+    <%- include('../success', {successMessage}) %>
+    
     <%  if (medicationDetails) { %>
         <table>
             <tr>
@@ -27,6 +28,15 @@
            
   
           <table>
-        <% } %>
+        <% } else { %>
+          <form method="POST">
+            <input type="text" name="medicationName" placeholder="Medication Name">
+            <input type="text" name="sideEffects" placeholder="Side Effects">
+            <input type="text" name="manufacturer" placeholder="Manufacturer">
+            <input type="text" name="dosage" placeholder="Dosage">
+            <button type="submit">Create Medication</button>
+            
+          </form>
+          <% } %>
   </body>
 </html>

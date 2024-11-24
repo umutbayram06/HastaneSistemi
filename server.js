@@ -6,9 +6,10 @@ import {
   getPatientSurgeries,
 } from "./data/patient.js";
 import { getDoctorDetails } from "./data/doctor.js";
-import { getMedicationDetails } from "./data/medication.js";
+import { createMedication, getMedicationDetails } from "./data/medication.js";
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 // Routes
@@ -69,27 +70,51 @@ app.get("/medication-details", async (req, res) => {
   const { medicationID } = req.query;
 
   const medicationDetailsView = "functions/medication-details";
+  const templateParameters = {
+    medicationDetails: null,
+    errorMessage: null,
+    successMessage: null,
+  };
 
   if (medicationID) {
     const medicationDetails = await getMedicationDetails(medicationID);
 
     if (!medicationDetails) {
-      return res.render(medicationDetailsView, {
-        medicationDetails: null,
-        errorMessage: "Medication Not Found !",
-      });
+      templateParameters.errorMessage = "Medication Not Found !";
+      return res.render(medicationDetailsView, templateParameters);
     }
 
-    return res.render(medicationDetailsView, {
-      medicationDetails,
-      errorMessage: null,
-    });
+    templateParameters.medicationDetails = medicationDetails;
+    return res.render(medicationDetailsView, templateParameters);
   }
 
-  res.render(medicationDetailsView, {
+  res.render(medicationDetailsView, templateParameters);
+});
+
+app.post("/medication-details", async (req, res) => {
+  const { medicationName, sideEffects, manufacturer, dosage } = req.body;
+
+  const medicationDetailsView = "functions/medication-details";
+  const templateParameters = {
     medicationDetails: null,
     errorMessage: null,
-  });
+    successMessage: null,
+  };
+
+  const result = await createMedication(
+    medicationName,
+    sideEffects,
+    manufacturer,
+    dosage
+  );
+
+  if (!result) {
+    templateParameters.errorMessage = "Medication Could Not Be Added !";
+    return res.render(medicationDetailsView, templateParameters);
+  }
+
+  templateParameters.successMessage = "Medication Added !";
+  res.render(medicationDetailsView, templateParameters);
 });
 
 // Start server
