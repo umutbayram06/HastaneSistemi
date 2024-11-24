@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../head') %>
+  <body>
+    <h2>Medication Details</h2>
+    <%- include('../error', {errorMessage}) %>
+
+    <%  if (medicationDetails) { %>
+        <table>
+            <tr>
+              <td>Medication Name</td>
+              <td><%= medicationDetails.MedicationName %></td>
+            </tr>
+            <tr>
+                <td>Manufacturer</td>
+                <td><%= medicationDetails.Manufacturer %></td>
+              </tr>
+            <tr>
+              <td>Side Effects</td>
+              <td><%= medicationDetails.SideEffects %></td>
+            </tr>
+           
+            <tr>
+              <td>Dosage</td>
+              <td><%= medicationDetails.Dosage %></td>
+            </tr>
+           
+  
+          <table>
+        <% } %>
+  </body>
+</html>
