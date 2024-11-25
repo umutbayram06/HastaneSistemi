@@ -6,13 +6,14 @@ import {
   getPatientPrescriptions,
   getPatientSurgeries,
 } from "./data/patient.js";
-import { getDoctorDetails } from "./data/doctor.js";
+import { getDoctorDetails, getDoctors } from "./data/doctor.js";
 import {
   createMedication,
   getMedicationDetails,
   getMedications,
 } from "./data/medication.js";
 import { createPrescription } from "./data/prescription.js";
+import { createSurgery } from "./data/surgery.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -163,6 +164,56 @@ app.post("/prescribe", async (req, res) => {
 
   templateParameters.successMessage = "Successfully prescribed !";
   res.render(prescribeView, templateParameters);
+});
+
+app.get("/surgery", async (req, res) => {
+  const surgeryView = "functions/surgery";
+  const doctors = await getDoctors();
+  const templateParameters = {
+    successMessage: null,
+    errorMessage: null,
+    doctors,
+  };
+  res.render(surgeryView, templateParameters);
+});
+
+app.post("/surgery", async (req, res) => {
+  const surgeryView = "functions/surgery";
+  const doctors = await getDoctors();
+  const templateParameters = {
+    successMessage: null,
+    errorMessage: null,
+    doctors,
+  };
+
+  const {
+    patientID,
+    surgeryName,
+    description,
+    estimatedDuration,
+    realDuration,
+    complications,
+    doctorIDs,
+  } = req.body;
+
+  const isSuccessfullyCreated = await createSurgery(
+    patientID,
+    surgeryName,
+    description,
+    estimatedDuration,
+    realDuration,
+    complications,
+    doctorIDs
+  );
+
+  if (!isSuccessfullyCreated) {
+    templateParameters.errorMessage =
+      "Error while creating surgery information !";
+    return res.render(surgeryView, templateParameters);
+  }
+
+  templateParameters.successMessage = "Successfully created !";
+  res.render(surgeryView, templateParameters);
 });
 
 // Start server

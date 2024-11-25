@@ -1,0 +1,95 @@
+<form class="w-50 m-5" method="POST">
+  <div class="mb-3">
+    <label for="patientID" class="form-label">Patient ID</label>
+    <input type="text" class="form-control" id="patientID" name="patientID" />
+  </div>
+
+  <div class="mb-3">
+    <label for="surgeryName" class="form-label">Surgery Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="surgeryName"
+      name="surgeryName"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <input
+      type="text"
+      class="form-control"
+      id="description"
+      name="description"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="estimatedDuration" class="form-label">Estimated Duration</label>
+    <input
+      type="text"
+      class="form-control"
+      id="estimatedDuration"
+      name="estimatedDuration"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="realDuration" class="form-label">Real Duration</label>
+    <input
+      type="text"
+      class="form-control"
+      id="realDuration"
+      name="realDuration"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="complications" class="form-label">Complications</label>
+    <input
+      type="text"
+      class="form-control"
+      id="complications"
+      name="complications"
+    />
+  </div>
+
+  <div class="dropdown-center mb-3">
+    <button
+      class="btn btn-danger dropdown-toggle"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      data-bs-auto-close="false"
+    >
+      Doctors
+    </button>
+    <ul class="dropdown-menu p-2">
+      <% doctors.forEach(doctor => { %>
+      <li>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="doctorIDs[]"
+            value="<%=
+                  doctor.DoctorID
+                  %>"
+            id="<%= doctor.DoctorID %>"
+          />
+
+          <label class="form-check-label" for="<%= doctor.DoctorID %>">
+            <%= doctor.DoctorName %>
+          </label>
+        </div>
+      </li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <button type="submit" class="btn btn-success w-100">
+    Create Surgery Information
+  </button>
+  <%- include('../error', {errorMessage}) %> <%- include('../success',
+  {successMessage}) %>
+</form>

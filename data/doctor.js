@@ -11,3 +11,13 @@ export async function getDoctorDetails(doctorID) {
 
   return doctorsWithDetails[0];
 }
+
+export async function getDoctors() {
+  const [doctors] = await db.execute("SELECT DoctorID, DoctorName from doctor");
+
+  if (doctors.length == 0) {
+    return null;
+  }
+
+  return doctors;
+}
