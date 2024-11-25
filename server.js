@@ -1,4 +1,5 @@
 import express from "express";
+import expressEjsLayouts from "express-ejs-layouts";
 
 import {
   getPatientGeneralInfo,
@@ -6,10 +7,17 @@ import {
   getPatientSurgeries,
 } from "./data/patient.js";
 import { getDoctorDetails } from "./data/doctor.js";
-import { createMedication, getMedicationDetails } from "./data/medication.js";
+import {
+  createMedication,
+  getMedicationDetails,
+  getMedications,
+} from "./data/medication.js";
+import { createPrescription } from "./data/prescription.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
+app.use(expressEjsLayouts); // Enable layouts
+app.set("layout", "layout"); // Default layout file (layout.ejs)
 app.set("view engine", "ejs");
 
 // Routes
@@ -115,6 +123,46 @@ app.post("/medication-details", async (req, res) => {
 
   templateParameters.successMessage = "Medication Added !";
   res.render(medicationDetailsView, templateParameters);
+});
+
+app.get("/prescribe", async (req, res) => {
+  const prescribeView = "functions/prescribe";
+  const medications = await getMedications();
+
+  const templateParameters = {
+    successMessage: null,
+    errorMessage: null,
+    medications,
+  };
+  res.render(prescribeView, templateParameters);
+});
+
+app.post("/prescribe", async (req, res) => {
+  const prescribeView = "functions/prescribe";
+  const medications = await getMedications();
+
+  const templateParameters = {
+    successMessage: null,
+    errorMessage: null,
+    medications,
+  };
+
+  const { doctorID, patientID, instructions, medicationIDs = [] } = req.body;
+
+  const isSuccessfullyCreated = await createPrescription(
+    doctorID,
+    patientID,
+    instructions,
+    medicationIDs
+  );
+
+  if (!isSuccessfullyCreated) {
+    templateParameters.errorMessage = "Error while prescribing !";
+    return res.render(prescribeView, templateParameters);
+  }
+
+  templateParameters.successMessage = "Successfully prescribed !";
+  res.render(prescribeView, templateParameters);
 });
 
 // Start server

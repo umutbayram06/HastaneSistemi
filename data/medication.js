@@ -5,7 +5,7 @@ export async function getMedicationDetails(medicationID) {
         SELECT MedicationName, SideEffects, Manufacturer, Dosage FROM medication WHERE MedicationID = ${medicationID}
         `);
 
-  if (!medicationsDetails) {
+  if (medicationsDetails.length == 0) {
     return null;
   }
 
@@ -23,4 +23,16 @@ export async function createMedication(
   `);
 
   return resultSet;
+}
+
+export async function getMedications() {
+  const [medications] = await db.execute(
+    "SELECT MedicationID, MedicationName FROM medication;"
+  );
+
+  if (medications.length == 0) {
+    return null;
+  }
+
+  return medications;
 }

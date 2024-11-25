@@ -1,42 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%- include('../head') %>
-  <body>
-    <h2>Medication Details</h2>
-    <%- include('../error', {errorMessage}) %>
-    <%- include('../success', {successMessage}) %>
-    
-    <%  if (medicationDetails) { %>
-        <table>
-            <tr>
-              <td>Medication Name</td>
-              <td><%= medicationDetails.MedicationName %></td>
-            </tr>
-            <tr>
-                <td>Manufacturer</td>
-                <td><%= medicationDetails.Manufacturer %></td>
-              </tr>
-            <tr>
-              <td>Side Effects</td>
-              <td><%= medicationDetails.SideEffects %></td>
-            </tr>
-           
-            <tr>
-              <td>Dosage</td>
-              <td><%= medicationDetails.Dosage %></td>
-            </tr>
-           
-  
-          <table>
-        <% } else { %>
-          <form method="POST">
-            <input type="text" name="medicationName" placeholder="Medication Name">
-            <input type="text" name="sideEffects" placeholder="Side Effects">
-            <input type="text" name="manufacturer" placeholder="Manufacturer">
-            <input type="text" name="dosage" placeholder="Dosage">
-            <button type="submit">Create Medication</button>
-            
-          </form>
-          <% } %>
-  </body>
-</html>
+<h2>Medication Details</h2>
+<%- include('../error', {errorMessage}) %> <%- include('../success',
+{successMessage}) %> <% if (medicationDetails) { %>
+<table>
+  <tr>
+    <td>Medication Name</td>
+    <td><%= medicationDetails.MedicationName %></td>
+  </tr>
+  <tr>
+    <td>Manufacturer</td>
+    <td><%= medicationDetails.Manufacturer %></td>
+  </tr>
+  <tr>
+    <td>Side Effects</td>
+    <td><%= medicationDetails.SideEffects %></td>
+  </tr>
+
+  <tr>
+    <td>Dosage</td>
+    <td><%= medicationDetails.Dosage %></td>
+  </tr>
+
+  <table>
+    <% } else { %>
+    <form method="POST">
+      <input type="text" name="medicationName" placeholder="Medication Name" />
+      <input type="text" name="sideEffects" placeholder="Side Effects" />
+      <input type="text" name="manufacturer" placeholder="Manufacturer" />
+      <input type="text" name="dosage" placeholder="Dosage" />
+      <button type="submit">Create Medication</button>
+    </form>
+    <% } %>
+  </table>
+</table>

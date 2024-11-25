@@ -1,43 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%- include('../head') %>
-  <body>
-    <h2>Doctor Details</h2>
-    <%- include('../error', {errorMessage}) %>
-    
-    <%  if (doctorDetails) { %>
-        <table>
-            <tr>
-              <td>Name</td>
-              <td><%= doctorDetails.DoctorName %></td>
-            </tr>
-            <tr>
-              <td>Surname</td>
-              <td><%= doctorDetails.DoctorSurname %></td>
-            </tr>
-            <tr>
-              <td>Hospital</td>
-              <td><%= doctorDetails.HospitalName %></td>
-            </tr>
-            <tr>
-              <td>Department</td>
-              <td><%= doctorDetails.DepartmentName %></td>
-            </tr>
-            <tr>
-              <td>Telephone Number</td>
-              <td><%= doctorDetails.DoctorTelephoneNumber %></td>
-            </tr>
-            <tr>
-              <td>Working Hours</td>
-              <td><%= doctorDetails.WorkingHoursInterval %></td>
-            </tr>
-  
-          <table>
-        <% } %>
-    
-    
-        
-        
-         
-  </body>
-</html>
+<h2>Doctor Details</h2>
+<%- include('../error', {errorMessage}) %> <% if (doctorDetails) { %>
+<table>
+  <tr>
+    <td>Name</td>
+    <td><%= doctorDetails.DoctorName %></td>
+  </tr>
+  <tr>
+    <td>Surname</td>
+    <td><%= doctorDetails.DoctorSurname %></td>
+  </tr>
+  <tr>
+    <td>Hospital</td>
+    <td><%= doctorDetails.HospitalName %></td>
+  </tr>
+  <tr>
+    <td>Department</td>
+    <td><%= doctorDetails.DepartmentName %></td>
+  </tr>
+  <tr>
+    <td>Telephone Number</td>
+    <td><%= doctorDetails.DoctorTelephoneNumber %></td>
+  </tr>
+  <tr>
+    <td>Working Hours</td>
+    <td><%= doctorDetails.WorkingHoursInterval %></td>
+  </tr>
+
+  <table>
+    <% } %>
+  </table>
+</table>
