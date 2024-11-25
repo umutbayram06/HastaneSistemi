@@ -46,7 +46,7 @@
   <div>
     <h2>Patient History</h2>
     <div>
-      <h3>Prescription History</h3>
+      <h5>Prescription History</h5>
       <% if (patient && patient.patientPrescriptions) { %>
       <table>
         <tr>
@@ -78,9 +78,11 @@
         </tr>
         <% }) %>
       </table>
+
+      <% } %>
     </div>
     <div>
-      <h3>Surgery History</h3>
+      <h5>Surgery History</h5>
       <% if (patient && patient.patientSurgeries) { %>
       <table>
         <tr>
@@ -113,5 +115,49 @@
       <% } %>
     </div>
   </div>
+
+  <div>
+    <h2>Appointments</h2>
+    <% if (patient && patient.patientAppointments) { %>
+    <table>
+      <tr>
+        <th>Doctor Name</th>
+        <th>Department</th>
+        <th>Appointment Date</th>
+      </tr>
+
+      <% patient.patientAppointments.forEach(appointment => { %>
+      <tr>
+        <td>
+          <a href="doctor-details?doctorID=<%= appointment.DoctorID  %>"
+            ><%= appointment.DoctorName %></a
+          >
+        </td>
+        <td><%= appointment.DepartmentName %></td>
+        <td><%= appointment.AppointmentDate.toString().slice(0,21) %></td>
+        <td class="ps-5">
+          <form action="/appointments/delete" method="GET">
+            <input
+              type="hidden"
+              name="appointmentID"
+              value="<%= 
+              appointment.AppointmentID
+              %>"
+            />
+            <input
+              type="hidden"
+              name="patientID"
+              value="<%= 
+              patient.patientGeneralInfo.PatientID
+              %>"
+            />
+            <button class="btn btn-danger" type="submit">Cancel</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+
+    <% } %>
+  </div>
 </section>
-<% } %>

@@ -4,7 +4,7 @@ import surgeryDoctorParser from "./parsers/surgeryDoctorParser.js";
 
 export async function getPatientGeneralInfo(patientID) {
   const [patientsWithGeneralInfo] = await db.execute(
-    `SELECT PatientName, PatientSurname, DateOfBirth, Gender, PatientTelephoneNumber, PatientAddress, BloodType, Allergies from patient 
+    `SELECT PatientID, PatientName, PatientSurname, DateOfBirth, Gender, PatientTelephoneNumber, PatientAddress, BloodType, Allergies from patient 
         WHERE PatientID = ${patientID}`
   );
 
@@ -45,4 +45,16 @@ export async function getPatientSurgeries(patientID) {
   surgeries = parsedSurgeries;
 
   return surgeries;
+}
+
+export async function getPatientAppointments(patientID) {
+  const [appointments] = await db.execute(`
+    SELECT DoctorID, DoctorName, DepartmentName, AppointmentDate, AppointmentID from appointment JOIN doctor ON FDoctorID = DoctorID JOIN department ON FDepartmentID = DepartmentID WHERE FPatientID = ${patientID};
+    `);
+
+  if (appointments.length == 0) {
+    return null;
+  }
+
+  return appointments;
 }

@@ -1,7 +1,9 @@
 import express from "express";
 import expressEjsLayouts from "express-ejs-layouts";
+import appointmentRoutes from "./routes/appointmentRoutes.js";
 
 import {
+  getPatientAppointments,
   getPatientGeneralInfo,
   getPatientPrescriptions,
   getPatientSurgeries,
@@ -35,6 +37,7 @@ app.get("/patient-information", async (req, res) => {
     const patientGeneralInfo = await getPatientGeneralInfo(patientID);
     const patientPrescriptions = await getPatientPrescriptions(patientID);
     const patientSurgeries = await getPatientSurgeries(patientID);
+    const patientAppointments = await getPatientAppointments(patientID);
 
     if (!patientGeneralInfo) {
       return res.render(patientInformationView, {
@@ -44,7 +47,12 @@ app.get("/patient-information", async (req, res) => {
     }
 
     return res.render(patientInformationView, {
-      patient: { patientGeneralInfo, patientPrescriptions, patientSurgeries },
+      patient: {
+        patientGeneralInfo,
+        patientPrescriptions,
+        patientSurgeries,
+        patientAppointments,
+      },
       errorMessage: null,
     });
   }
@@ -215,6 +223,8 @@ app.post("/surgery", async (req, res) => {
   templateParameters.successMessage = "Successfully created !";
   res.render(surgeryView, templateParameters);
 });
+
+app.use("/appointments", appointmentRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;

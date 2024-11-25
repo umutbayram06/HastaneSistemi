@@ -1,0 +1,74 @@
+<h1>Book an Appointment</h1>
+<form id="department-form" method="POST">
+  <div><input type="text" name="patientID" placeholder="Patient ID" /></div>
+
+  <label for="department">Choose Department:</label>
+  <select id="department" name="departmentID">
+    <option id="department-explaination">Please select a department</option>
+    <% if (departments) { %> <% departments.forEach(department => { %>
+    <option value="<%= department.DepartmentID %>">
+      <%= department.DepartmentName %>
+    </option>
+    <% }); %> <% } %>
+  </select>
+
+  <div id="doctor-form" style="display: none">
+    <label for="doctor">Choose Doctor:</label>
+    <select id="doctor" name="doctorID"></select>
+  </div>
+
+  <div id="time-form" style="display: none" method="POST" action="/book">
+    <label for="time">Choose Time:</label>
+    <select id="time" name="appointmentDate"></select>
+  </div>
+
+  <button type="submit" id="book-button" style="display: none">Book</button>
+
+  <%- include('../error', {errorMessage}) %> <%- include('../success',
+  {successMessage}) %>
+</form>
+
+<script>
+  document.getElementById("department").addEventListener("change", function () {
+    document.getElementById("department-explaination").style.display = "none";
+    fetch(`/appointments/doctors?departmentID=${this.value}`)
+      .then((response) => response.json())
+      .then(({ doctors }) => {
+        const doctorSelect = document.getElementById("doctor");
+        doctorSelect.innerHTML = "";
+
+        doctors.forEach((doctor) => {
+          const option = document.createElement("option");
+          option.value = doctor.DoctorID;
+          option.textContent = doctor.DoctorName;
+          doctorSelect.appendChild(option);
+        });
+
+        document.getElementById("doctor-form").style.display = "block";
+
+        getAvailabilities(doctors[0].DoctorID);
+
+        document.getElementById("book-button").style.display = "block";
+      });
+  });
+
+  function getAvailabilities(doctorID) {
+    fetch(`/appointments/availability?doctorID=${doctorID}`)
+      .then((response) => response.json())
+      .then((times) => {
+        const timeSelect = document.getElementById("time");
+        timeSelect.innerHTML = "";
+        times.forEach((time) => {
+          const option = document.createElement("option");
+          option.value = time;
+          option.textContent = time.split("T")[0] + " " + time.split("T")[1];
+          timeSelect.appendChild(option);
+        });
+        document.getElementById("time-form").style.display = "block";
+      });
+  }
+
+  document.getElementById("doctor").addEventListener("change", (e) => {
+    getAvailabilities(e.target.value);
+  });
+</script>

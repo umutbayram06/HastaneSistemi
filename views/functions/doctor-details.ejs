@@ -23,7 +23,10 @@
   </tr>
   <tr>
     <td>Working Hours</td>
-    <td><%= doctorDetails.WorkingHoursInterval %></td>
+    <td>
+      <%= doctorDetails.StartTime.slice(0,5) %> - <%=
+      doctorDetails.EndTime.slice(0,5) %>
+    </td>
   </tr>
 
   <table>
