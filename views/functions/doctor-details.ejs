@@ -1,35 +1,39 @@
-<h2>Doctor Details</h2>
-<%- include('../error', {errorMessage}) %> <% if (doctorDetails) { %>
-<table>
-  <tr>
-    <td>Name</td>
-    <td><%= doctorDetails.DoctorName %></td>
-  </tr>
-  <tr>
-    <td>Surname</td>
-    <td><%= doctorDetails.DoctorSurname %></td>
-  </tr>
-  <tr>
-    <td>Hospital</td>
-    <td><%= doctorDetails.HospitalName %></td>
-  </tr>
-  <tr>
-    <td>Department</td>
-    <td><%= doctorDetails.DepartmentName %></td>
-  </tr>
-  <tr>
-    <td>Telephone Number</td>
-    <td><%= doctorDetails.DoctorTelephoneNumber %></td>
-  </tr>
-  <tr>
-    <td>Working Hours</td>
-    <td>
-      <%= doctorDetails.StartTime.slice(0,5) %> - <%=
-      doctorDetails.EndTime.slice(0,5) %>
-    </td>
-  </tr>
+<div class="container mt-5">    
+    <h2 class="text-center mb-4">Doctor Details</h2>
+    <%- include('../error', {errorMessage}) %> <% if (doctorDetails) { %>
+    <table class="table table-bordered table-striped table-hover">
+      <tbody>
+          <tr>
+            <td><strong>Name</strong></td>
+            <td><%= doctorDetails.DoctorName %></td>
+          </tr>
+          <tr>
+            <td><strong>Surname</strong></td>
+            <td><%= doctorDetails.DoctorSurname %></td>
+          </tr>
+          <tr>
+            <td><strong>Hospital</strong></td>
+            <td><%= doctorDetails.HospitalName %></td>
+          </tr>
+          <tr>
+            <td><strong>Department</strong></td>
+            <td><%= doctorDetails.DepartmentName %></td>
+          </tr>
+          <tr>
+            <td><strong>Telephone Number</strong></td>
+            <td><%= doctorDetails.DoctorTelephoneNumber %></td>
+          </tr>
+          <tr>
+            <td><strong>Working Hours</strong></td>
+            <td>
+              <%= doctorDetails.StartTime.slice(0,5) %> - <%=
+              doctorDetails.EndTime.slice(0,5) %>
+            </td>
+          </tr>
 
-  <table>
-    <% } %>
-  </table>
-</table>
+          <table>
+            <% } %>
+          </table>
+      </tbody>
+    </table>
+</div>
