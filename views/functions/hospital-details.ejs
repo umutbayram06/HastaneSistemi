@@ -1,0 +1,23 @@
+<h2>Hospital Details</h2>
+<%- include('../error', {errorMessage}) %> <%- include('../success',
+{successMessage}) %> <% if (hospitalDetails) { %>
+<table>
+  <tr>
+    <td>Hospital Name</td>
+    <td><%= hospitalDetails.HospitalName %></td>
+  </tr>
+  <tr>
+    <td>Hospital Address</td>
+    <td><%= hospitalDetails.HospitalAddress %></td>
+  </tr>
+  <tr>
+    <td>Capacity</td>
+    <td><%= hospitalDetails.Capacity %></td>
+  </tr>
+
+  <tr>
+    <td>City</td>
+    <td><%= hospitalDetails.City %></td>
+  </tr>
+</table>
+<% } %>

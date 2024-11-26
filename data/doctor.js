@@ -24,7 +24,7 @@ export async function getDoctors() {
 
 export async function getDoctorsByDepartmentID(departmentID) {
   const [doctors] = await db.execute(`
-    SELECT DoctorID, DoctorName FROM doctor WHERE FDepartmentID = ${departmentID}
+    SELECT DoctorID, DoctorName, HospitalName, HospitalID FROM doctor JOIN hospital ON FHospitalID = HospitalID WHERE FDepartmentID = ${departmentID}
     `);
 
   if (doctors.length == 0) {

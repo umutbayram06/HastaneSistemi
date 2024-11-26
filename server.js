@@ -16,6 +16,7 @@ import {
 } from "./data/medication.js";
 import { createPrescription } from "./data/prescription.js";
 import { createSurgery } from "./data/surgery.js";
+import { getHospitalDetails } from "./data/hospital.js";
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -81,6 +82,31 @@ app.get("/doctor-details", async (req, res) => {
   }
 
   res.render(doctorDetailsView, { doctorDetails: null, errorMessage: null });
+});
+
+app.get("/hospital-details", async (req, res) => {
+  const { hospitalID } = req.query;
+  const hospitalDetailsView = "functions/hospital-details";
+  const templateParameters = {
+    errorMessage: null,
+    successMessage: null,
+    hospitalDetails: null,
+  };
+
+  if (hospitalID) {
+    const hospitalDetails = await getHospitalDetails(hospitalID);
+
+    if (!hospitalDetails) {
+      templateParameters.errorMessage = "Not Found !";
+      return res.render(hospitalDetailsView, templateParameters);
+    }
+
+    templateParameters.hospitalDetails = hospitalDetails;
+    return res.render(hospitalDetailsView, templateParameters);
+  }
+
+  templateParameters.errorMessage = "Not Found !";
+  res.render(hospitalDetailsView, templateParameters);
 });
 
 app.get("/medication-details", async (req, res) => {

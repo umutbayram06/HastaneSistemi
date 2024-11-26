@@ -15,6 +15,7 @@
   <div id="doctor-form" style="display: none">
     <label for="doctor">Choose Doctor:</label>
     <select id="doctor" name="doctorID"></select>
+    <a id="hospital-details-link">Show Hospital Details</a>
   </div>
 
   <div id="time-form" style="display: none" method="POST" action="/book">
@@ -29,21 +30,30 @@
 </form>
 
 <script>
+  let globalDoctors = null;
   document.getElementById("department").addEventListener("change", function () {
     document.getElementById("department-explaination").style.display = "none";
     fetch(`/appointments/doctors?departmentID=${this.value}`)
       .then((response) => response.json())
       .then(({ doctors }) => {
+        globalDoctors = doctors;
         const doctorSelect = document.getElementById("doctor");
         doctorSelect.innerHTML = "";
 
         doctors.forEach((doctor) => {
           const option = document.createElement("option");
           option.value = doctor.DoctorID;
-          option.textContent = doctor.DoctorName;
+          option.textContent = doctor.DoctorName + "-" + doctor.HospitalName;
           doctorSelect.appendChild(option);
         });
 
+        console.log(doctors);
+        document
+          .getElementById("hospital-details-link")
+          .setAttribute(
+            "href",
+            `/hospital-details?hospitalID=${doctors[0].HospitalID}`
+          );
         document.getElementById("doctor-form").style.display = "block";
 
         getAvailabilities(doctors[0].DoctorID);
@@ -69,6 +79,15 @@
   }
 
   document.getElementById("doctor").addEventListener("change", (e) => {
-    getAvailabilities(e.target.value);
+    selectedDoctor = globalDoctors.find(
+      (doctor) => doctor.DoctorID == e.target.value
+    );
+    document
+      .getElementById("hospital-details-link")
+      .setAttribute(
+        "href",
+        `/hospital-details?hospitalID=${selectedDoctor.HospitalID}`
+      );
+    getAvailabilities(selectedDoctor.DoctorID);
   });
 </script>
