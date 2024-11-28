@@ -1,99 +1,112 @@
-<form>
-  <input type="text" name="patientID" placeholder="Patient ID" />
-  <button type="submit">Query</button>
-</form>
 
-<%- include('../error', {errorMessage}) %> <% if (patient) { %>
+<div class="card shadow-lg p-4 mb-4">
+  <h2 class="text-center mb-4">Patient Info Query</h2>
+  <form method="GET" class="d-flex flex-column align-items-center">
+    <div class="mb-3 w-75">
+      <label for="patientID" class="form-label">Patient ID</label>
+      <input type="text" class="form-control" id="patientID" name="patientID" required />
+    </div>
+    <button type="submit" class="btn btn-primary w-50 mt-3">Search</button>
+  </form>
+</div>
+
+<%- include('../error', {errorMessage}) %>
+
+<% if (patient) { %>
 <section>
-  <div>
+  <!-- Patient General Info Section -->
+  <div class="mb-5">
     <h2>Patient General Information</h2>
-    <table>
-      <tr>
-        <td>Name</td>
-        <td><%= patient.patientGeneralInfo.PatientName %></td>
-      </tr>
-      <tr>
-        <td>Surname</td>
-        <td><%= patient.patientGeneralInfo.PatientSurname %></td>
-      </tr>
-      <tr>
-        <td>Date of Birth</td>
-        <td><%= patient.patientGeneralInfo.DateOfBirth %></td>
-      </tr>
-      <tr>
-        <td>Gender</td>
-        <td><%= patient.patientGeneralInfo.Gender %></td>
-      </tr>
-      <tr>
-        <td>Telephone Number</td>
-        <td><%= patient.patientGeneralInfo.PatientTelephoneNumber %></td>
-      </tr>
-      <tr>
-        <td>Adress</td>
-        <td><%= patient.patientGeneralInfo.PatientAddress %></td>
-      </tr>
-      <tr>
-        <td>Blood Type</td>
-        <td><%= patient.patientGeneralInfo.BloodType %></td>
-      </tr>
-      <tr>
-        <td>Allergies</td>
-        <td><%= patient.patientGeneralInfo.Allergies %></td>
-      </tr>
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td><strong>Name</strong></td>
+          <td><%= patient.patientGeneralInfo.PatientName %></td>
+        </tr>
+        <tr>
+          <td><strong>Surname</strong></td>
+          <td><%= patient.patientGeneralInfo.PatientSurname %></td>
+        </tr>
+        <tr>
+          <td><strong>Date of Birth</strong></td>
+          <td><%= patient.patientGeneralInfo.DateOfBirth %></td>
+        </tr>
+        <tr>
+          <td><strong>Gender</strong></td>
+          <td><%= patient.patientGeneralInfo.Gender %></td>
+        </tr>
+        <tr>
+          <td><strong>Telephone Number</strong></td>
+          <td><%= patient.patientGeneralInfo.PatientTelephoneNumber %></td>
+        </tr>
+        <tr>
+          <td><strong>Address</strong></td>
+          <td><%= patient.patientGeneralInfo.PatientAddress %></td>
+        </tr>
+        <tr>
+          <td><strong>Blood Type</strong></td>
+          <td><%= patient.patientGeneralInfo.BloodType %></td>
+        </tr>
+        <tr>
+          <td><strong>Allergies</strong></td>
+          <td><%= patient.patientGeneralInfo.Allergies %></td>
+        </tr>
+      </tbody>
     </table>
   </div>
-  <% } %>
-  <div>
+
+  <!-- Patient History Section -->
+  <div class="mb-5">
     <h2>Patient History</h2>
-    <div>
-      <h5>Prescription History</h5>
-      <% if (patient && patient.patientPrescriptions) { %>
-      <table>
+
+    <!-- Prescription History Section -->
+    <h3 class="mt-4">Prescription History</h3>
+    <% if (patient && patient.patientPrescriptions) { %>
+    <table class="table table-bordered table-striped">
+      <thead>
         <tr>
           <th>Date Issued</th>
           <th>Instructions</th>
           <th>Status</th>
-          <th>Doctor prescribed</th>
+          <th>Doctor Prescribed</th>
           <th>Medications</th>
         </tr>
-
+      </thead>
+      <tbody>
         <% patient.patientPrescriptions.forEach(prescription => { %>
         <tr>
           <td><%= prescription.DateIssued %></td>
           <td><%= prescription.Instructions %></td>
           <td><%= prescription.Status %></td>
           <td>
-            <a href="/doctor-details?doctorID=<%= prescription.DoctorID %>"
-              ><%= prescription.DoctorName %></a
-            >
+            <a href="/doctor-details?doctorID=<%= prescription.DoctorID %>"><%= prescription.DoctorName %></a>
           </td>
           <td>
             <% prescription.Medications.forEach(medication => { %>
-            <a
-              href="/medication-details?medicationID=<%= medication.MedicationID %>"
-              ><%= medication.MedicationName %></a
-            >
+            <a href="/medication-details?medicationID=<%= medication.MedicationID %>"><%= medication.MedicationName %></a>
             <% }) %>
           </td>
         </tr>
         <% }) %>
-      </table>
+      </tbody>
+    </table>
+    <% } %>
 
-      <% } %>
-    </div>
-    <div>
-      <h5>Surgery History</h5>
-      <% if (patient && patient.patientSurgeries) { %>
-      <table>
+    <!-- Surgery History Section -->
+    <h3 class="mt-4">Surgery History</h3>
+    <% if (patient && patient.patientSurgeries) { %>
+    <table class="table table-bordered table-striped">
+      <thead>
         <tr>
           <th>Surgery Name</th>
           <th>Description</th>
           <th>Estimated Duration (minutes)</th>
           <th>Real Duration (minutes)</th>
           <th>Complications</th>
-          <th>Doctors attended</th>
+          <th>Doctors Attended</th>
         </tr>
-
+      </thead>
+      <tbody>
         <% patient.patientSurgeries.forEach(surgery => { %>
         <tr>
           <td><%= surgery.SurgeryName %></td>
@@ -103,61 +116,49 @@
           <td><%= surgery.Complications %></td>
           <td>
             <% surgery.Doctors.forEach(doctor => { %>
-            <a href="/doctor-details?doctorID=<%= doctor.DoctorID %>"
-              ><%= doctor.DoctorName %></a
-            >
+            <a href="/doctor-details?doctorID=<%= doctor.DoctorID %>"><%= doctor.DoctorName %></a>
             <% }) %>
           </td>
         </tr>
-
         <% }) %>
-      </table>
-      <% } %>
-    </div>
-  </div>
-
-  <div>
-    <h2>Appointments</h2>
-    <% if (patient && patient.patientAppointments) { %>
-    <table>
-      <tr>
-        <th>Doctor Name</th>
-        <th>Department</th>
-        <th>Appointment Date</th>
-      </tr>
-
-      <% patient.patientAppointments.forEach(appointment => { %>
-      <tr>
-        <td>
-          <a href="doctor-details?doctorID=<%= appointment.DoctorID  %>"
-            ><%= appointment.DoctorName %></a
-          >
-        </td>
-        <td><%= appointment.DepartmentName %></td>
-        <td><%= appointment.AppointmentDate.toString().slice(0,21) %></td>
-        <td class="ps-5">
-          <form action="/appointments/delete" method="GET">
-            <input
-              type="hidden"
-              name="appointmentID"
-              value="<%= 
-              appointment.AppointmentID
-              %>"
-            />
-            <input
-              type="hidden"
-              name="patientID"
-              value="<%= 
-              patient.patientGeneralInfo.PatientID
-              %>"
-            />
-            <button class="btn btn-danger" type="submit">Cancel</button>
-          </form>
-        </td>
-      </tr>
-      <% }) %>
+      </tbody>
     </table>
-
     <% } %>
+      
+    
+    <!-- Appointment History Section -->
+    <h3 class="mt-4">Appointment History</h3>
+    <% if (patient && patient.patientAppointments) { %>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Doctor Name</th>
+          <th>Department</th>
+          <th>Appointment Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% patient.patientAppointments.forEach(appointment => { %>
+        <tr>
+          <td>
+            <a href="doctor-details?doctorID=<%= appointment.DoctorID %>"><%= appointment.DoctorName %></a>
+          </td>
+          <td><%= appointment.DepartmentName %></td>
+          <td><%= appointment.AppointmentDate.toString().slice(0, 21) %></td>
+          <td class="ps-5">
+            <form action="/appointments/delete" method="GET">
+              <input type="hidden" name="appointmentID" value="<%= appointment.AppointmentID %>" />
+              <input type="hidden" name="patientID" value="<%= patient.patientGeneralInfo.PatientID %>" />
+              <button class="btn btn-danger" type="submit">Cancel</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>  
+      
+      
   </div>
 </section>
+<% } %>

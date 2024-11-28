@@ -1,34 +1,51 @@
-<h2>Medication Details</h2>
-<%- include('../error', {errorMessage}) %> <%- include('../success',
-{successMessage}) %> <% if (medicationDetails) { %>
-<table>
-  <tr>
-    <td>Medication Name</td>
-    <td><%= medicationDetails.MedicationName %></td>
-  </tr>
-  <tr>
-    <td>Manufacturer</td>
-    <td><%= medicationDetails.Manufacturer %></td>
-  </tr>
-  <tr>
-    <td>Side Effects</td>
-    <td><%= medicationDetails.SideEffects %></td>
-  </tr>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Medication Details</h2>
 
-  <tr>
-    <td>Dosage</td>
-    <td><%= medicationDetails.Dosage %></td>
-  </tr>
+  <!-- Error and Success Messages -->
+  <%- include('../error', {errorMessage}) %>
+  <%- include('../success', {successMessage}) %>
 
-  <table>
-    <% } else { %>
-    <form method="POST">
-      <input type="text" name="medicationName" placeholder="Medication Name" />
-      <input type="text" name="sideEffects" placeholder="Side Effects" />
-      <input type="text" name="manufacturer" placeholder="Manufacturer" />
-      <input type="text" name="dosage" placeholder="Dosage" />
-      <button type="submit">Create Medication</button>
-    </form>
-    <% } %>
+  <% if (medicationDetails) { %>
+  <!-- Medication Details Table -->
+  <table class="table table-bordered table-striped table-hover">
+    <tbody>
+      <tr>
+        <td><strong>Medication Name</strong></td>
+        <td><%= medicationDetails.MedicationName %></td>
+      </tr>
+      <tr>
+        <td><strong>Manufacturer</strong></td>
+        <td><%= medicationDetails.Manufacturer %></td>
+      </tr>
+      <tr>
+        <td><strong>Side Effects</strong></td>
+        <td><%= medicationDetails.SideEffects %></td>
+      </tr>
+      <tr>
+        <td><strong>Dosage</strong></td>
+        <td><%= medicationDetails.Dosage %></td>
+      </tr>
+    </tbody>
   </table>
-</table>
+  <% } else { %>
+  <!-- Create Medication Form -->
+  <h3 class="text-center mb-4">Create Medication</h3>
+  <form method="POST" class="row g-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" name="medicationName" placeholder="Medication Name" required />
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" name="sideEffects" placeholder="Side Effects" required />
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" name="manufacturer" placeholder="Manufacturer" required />
+    </div>
+    <div class="col-md-6">
+      <input type="text" class="form-control" name="dosage" placeholder="Dosage" required />
+    </div>
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary w-50 mt-3">Create Medication</button>
+    </div>
+  </form>
+  <% } %>
+</div>

@@ -1,23 +1,33 @@
-<h2>Hospital Details</h2>
-<%- include('../error', {errorMessage}) %> <%- include('../success',
-{successMessage}) %> <% if (hospitalDetails) { %>
-<table>
-  <tr>
-    <td>Hospital Name</td>
-    <td><%= hospitalDetails.HospitalName %></td>
-  </tr>
-  <tr>
-    <td>Hospital Address</td>
-    <td><%= hospitalDetails.HospitalAddress %></td>
-  </tr>
-  <tr>
-    <td>Capacity</td>
-    <td><%= hospitalDetails.Capacity %></td>
-  </tr>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Hospital Details</h2>
 
-  <tr>
-    <td>City</td>
-    <td><%= hospitalDetails.City %></td>
-  </tr>
-</table>
-<% } %>
+  <!-- Success and Error Messages -->
+  <%- include('../error', {errorMessage}) %>
+  <%- include('../success', {successMessage}) %>
+
+  <% if (hospitalDetails) { %>
+    <!-- Hospital Details Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr>
+            <td class="fw-bold">Hospital Name</td>
+            <td><%= hospitalDetails.HospitalName %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Hospital Address</td>
+            <td><%= hospitalDetails.HospitalAddress %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Capacity</td>
+            <td><%= hospitalDetails.Capacity %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">City</td>
+            <td><%= hospitalDetails.City %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
