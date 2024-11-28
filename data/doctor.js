@@ -64,10 +64,20 @@ export async function getDoctorAvailabilityByID(doctorID) {
 
   const availableTimes = [];
 
-  for (let time = start; time < end; time += 30 * 60 * 1000) {
-    // 30-minute intervals
-    if (!appointmentTimes.includes(time)) {
-      availableTimes.push(new Date(time).toISOString().slice(0, 16));
+  for (let i = 1; i < 6; i++) {
+    const today = new Date();
+    const targetDate = new Date(today);
+    targetDate.setDate(today.getDate() + i);
+    const targetDateString = targetDate.toISOString().split("T")[0];
+
+    const start = new Date(`${targetDateString}T${startTime}Z`).getTime();
+    const end = new Date(`${targetDateString}T${endTime}Z`).getTime();
+
+    for (let time = start; time < end; time += 30 * 60 * 1000) {
+      // 30-minute intervals
+      if (!appointmentTimes.includes(time)) {
+        availableTimes.push(new Date(time).toISOString().slice(0, 16));
+      }
     }
   }
 
